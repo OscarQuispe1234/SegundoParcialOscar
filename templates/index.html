@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Productos</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            color: #343a40;
+            margin-bottom: 20px;
+        }
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .product-details {
+            flex-grow: 1;
+        }
+        .product-details h4 {
+            margin: 0;
+            color: #343a40;
+        }
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+        button, a {
+            padding: 8px 12px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            border: none;
+        }
+        a {
+            background-color: #007bff;
+        }
+        a:hover {
+            background-color: #0056b3;
+        }
+        button {
+            background-color: #d9534f;
+        }
+        button:hover {
+            background-color: #c9302c;
+        }
+        @media (max-width: 600px) {
+            .product-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .actions {
+                justify-content: flex-end;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Productos</h1>
+        <p>NOMBRE: Moises Zuñiga Cerezo | CARNET: 13927501</p>
+    </header>
+    <div class="container">
+        <a href="{{ url_for('agregar_producto') }}">Nuevo Producto</a>
+        {% for producto in productos %}
+        <div class="product-card">
+            <div class="product-details">
+                <h4>ID: {{ producto.id }}</h4>
+                <p>Nombre: {{ producto.nombre }}</p>
+                <p>Cantidad: {{ producto.cantidad }}</p>
+                <p>Precio: {{ producto.precio }}</p>
+                <p>Fecha de Vencimiento: {{ producto.fecha_vencimiento }}</p>
+                <p>Categoría: {{ producto.categoria }}</p>
+            </div>
+            <div class="actions">
+                <a href="{{ url_for('editar_producto', id=producto.id) }}">Editar</a>
+                <form action="{{ url_for('eliminar_producto', id=producto.id) }}" method="POST">
+                    <button type="submit" onclick="return confirm('¿Estás seguro?');">Eliminar</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
